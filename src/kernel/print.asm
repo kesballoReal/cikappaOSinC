@@ -1,4 +1,6 @@
 ; print.asm
+; Author: kesballoReal
+
 section .text
 global print_string
 

@@ -1,4 +1,5 @@
 ; bootloader.asm
+; Author: kesballoReal
 
 [bits 32]
 [org 0x7c00]
