@@ -28,11 +28,11 @@ $(KERNEL_BIN): $(KERNEL_OBJ)
 # ISO Image creation
 $(ISO): $(BOOTLOADER) $(KERNEL_BIN)
 	mkdir -p build/iso/boot/grub
-	cp $(KERNEL_BIN) build/iso/my_os.bin
+	cp $(KERNEL_BIN) build/iso/ck_os.bin
 	echo 'set timeout=0' > build/iso/boot/grub/grub.cfg
 	echo 'set default=0' >> build/iso/boot/grub/grub.cfg
 	echo 'menuentry "cikappaOS" {' >> build/iso/boot/grub/grub.cfg
-	echo '    multiboot /my_os.bin' >> build/iso/boot/grub/grub.cfg
+	echo '    multiboot /ck_os.bin' >> build/iso/boot/grub/grub.cfg
 	echo '    boot' >> build/iso/boot/grub/grub.cfg
 	echo '}' >> build/iso/boot/grub/grub.cfg
 	grub-mkrescue -o build/cikappaOS.iso build/iso
