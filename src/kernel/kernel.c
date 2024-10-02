@@ -1,9 +1,10 @@
-
 // kernel.c
 // Author: kesballoReal
 
 #include <stdint.h>
 #include "memory.h"
+#include "video.h"
+#include "keyboard.h"
 
 #define MULTIBOOT_HEADER_MAGIC 0x1BADB002
 #define MULTIBOOT_HEADER_FLAGS 0x00000003
@@ -33,72 +34,23 @@ multiboot_header_t multiboot_header = {
     0,
 };
 
-// Video Memory things
-#define VIDEO_MEMORY (char *)0xb8000
-#define MAX_WIDTH 80
-#define MAX_HEIGHT 25
-
-// Cursors variables for printf
-unsigned int cursor_x = 0;
-unsigned int cursor_y = 0;
-
-void outb(unsigned short port, unsigned char value) {
-    asm volatile ("outb %0, %1" : : "a"(value), "Nd"(port));
-}
-
-void update_cursor() {
-    unsigned short position = cursor_y * MAX_WIDTH + cursor_x;
-    outb(0x3D4, 14);
-    outb(0x3D5, position >> 8);
-    outb(0x3D4, 15);
-    outb(0x3D5, position & 0xFF);
-}
-
-void put_char(char c) {
-    char *vidptr = VIDEO_MEMORY + (cursor_y * MAX_WIDTH + cursor_x) * 2;
-    *vidptr = c;
-    *(vidptr + 1) = 0x07; // White on black color
-    cursor_x++;
-    
-    if (cursor_x >= MAX_WIDTH) {
-        cursor_x = 0;
-        cursor_y++;
-    }
-    if (cursor_y >= MAX_HEIGHT) {
-        cursor_y = MAX_HEIGHT - 1;
-    }
-
-    update_cursor(); // Updates the cursor
-}
-
-void print_string(const char* str) {
-    while (*str) {
-        if (*str == '\n') {
-            cursor_x = 0;
-            cursor_y++;
-            if (cursor_y >= MAX_HEIGHT) {
-                cursor_y = MAX_HEIGHT - 1;
-            }
-        } else {
-            put_char(*str);
-        }
-        str++;
-    }
-}
-
-// Do i need to explain this?
 void kernel_main() {
-    memory_init();  // Memory init
-
-    cursor_x = 0;
-    cursor_y = 0; 
+    memory_init();  // Inizializzazione della memoria
+    video_init();   // Inizializzazione della grafica
     
-    const char *msg = "Hello from cikappaOS Kernel!";
-    print_string(msg);
-
+    print_string("Hello from cikappaOS Kernel!\n");
     
-
-    // Infinite loop for not stopping the kernel.
+    char last_char = '\0'; // Variabile per tenere traccia dell'ultimo carattere stampato
+    
+    // Ciclo infinito per non fermare il kernel.
     while (1) {
+        char c = input(); // Leggi un carattere dalla tastiera
+        if (c != '\0' && c != last_char) {  // Stampa solo se il carattere è valido e diverso dall'ultimo
+            put_char(c); // Mostra il carattere sullo schermo
+            last_char = c; // Aggiorna l'ultimo carattere stampato
+        }
+
+        // Aggiungi un breve ritardo per evitare cicli troppo veloci
+        for (volatile int i = 0; i < 100000; i++);
     }
 }

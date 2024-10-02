@@ -5,20 +5,20 @@ section .text
 global print_string
 
 print_string:
-    pusha                 ; Salva tutti i registri
+    pusha     
 
-    mov edi, esi          ; Passa il puntatore della stringa a EDI
+    mov edi, esi         
 
 .next_char:
-    mov al, [edi]        ; Carica il carattere corrente
-    test al, al          ; Controlla se è il carattere null
-    jz .done             ; Se è null, termina
+    mov al, [edi]       
+    test al, al         
+    jz .done             
 
-    mov ah, 0x0E         ; Funzione di scrittura carattere in modalità testo
-    int 0x10            ; Chiamata all'interrupt
-    inc edi              ; Passa al prossimo carattere
-    jmp .next_char       ; Ripeti per il prossimo carattere
+    mov ah, 0x0E         
+    int 0x10          
+    inc edi             
+    jmp .next_char   
 
 .done:
-    popa                 ; Ripristina i registri
+    popa            
     ret

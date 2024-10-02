@@ -3,7 +3,7 @@ NASM=nasm
 GCC=gcc
 LD=ld
 BOOTLOADER=build/bootloader.bin
-KERNEL_OBJ=build/kernel.o build/memory.o
+KERNEL_OBJ=build/kernel.o build/memory.o build/video.o build/keyboard.o
 KERNEL_BIN=build/kernel.bin
 ISO=cikappaOS.iso
 
@@ -14,7 +14,15 @@ $(BOOTLOADER): src/bootloader/bootloader.asm
 	$(NASM) -f bin -o $@ $<
 
 # Kernel compilation
-build/kernel.o: src/kernel/kernel.c
+build/kernel.o: src/kernel/kernel.c src/kernel/keyboard.c src/kernel/video.c
+	$(GCC) -m32 -ffreestanding -c $< -o $@
+
+# Video manager compilation
+build/video.o: src/kernel/video.c
+	$(GCC) -m32 -ffreestanding -c $< -o $@
+
+# Keyboard manager compilation
+build/keyboard.o: src/kernel/keyboard.c
 	$(GCC) -m32 -ffreestanding -c $< -o $@
 
 # Memory manager compilation
@@ -37,6 +45,6 @@ $(ISO): $(BOOTLOADER) $(KERNEL_BIN)
 	echo '}' >> build/iso/boot/grub/grub.cfg
 	grub-mkrescue -o build/cikappaOS.iso build/iso
 
-# Uhhh, cleans?
+# Clean up
 clean:
 	rm -f build/*.bin build/*.o build/iso/*.bin build/cikappaOS.iso
