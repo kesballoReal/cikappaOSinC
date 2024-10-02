@@ -71,7 +71,6 @@ void put_char(char c) {
     update_cursor(); // Updates the cursor
 }
 
-// Funzione per stampare stringhe
 void print_string(const char* str) {
     while (*str) {
         if (*str == '\n') {
