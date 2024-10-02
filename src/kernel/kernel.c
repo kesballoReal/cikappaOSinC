@@ -94,7 +94,7 @@ void kernel_main() {
     cursor_x = 0;
     cursor_y = 0; 
     
-    const char *msg = "Hello from ckOS Kernel!";
+    const char *msg = "Hello from cikappaOS Kernel!";
     print_string(msg);
 
     
