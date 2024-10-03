@@ -6,24 +6,19 @@
 
 #define KEYBOARD_PORT 0x60
 
-// Funzione per leggere un byte da una porta I/O
 static inline unsigned char inb(uint16_t port) {
     unsigned char ret;
     __asm__ volatile ("inb %1, %0" : "=a"(ret) : "Nd"(port));
     return ret;
 }
 
-// Funzione per leggere il codice di scansione dalla tastiera
 char read_keyboard() {
     unsigned char scancode = inb(KEYBOARD_PORT);
     
-    // Gestire il rilascio dei tasti
     if (scancode & 0x80) {
-        // Ignora i codici di rilascio
         return '\0';
     }
     
-    // Mappatura dei codici di scansione in caratteri
     switch (scancode) {
         case 0x1E: return 'a';
         case 0x30: return 'b';
@@ -52,17 +47,28 @@ char read_keyboard() {
         case 0x15: return 'y';
         case 0x2C: return 'z';
         case 0x39: return ' ';
+        case 0x1C: return '\n';
+
+        case 0x02: return '1';
+        case 0x03: return '2';
+        case 0x04: return '3';
+        case 0x05: return '4';
+        case 0x06: return '5';
+        case 0x07: return '6';
+        case 0x08: return '7';
+        case 0x09: return '8';
+        case 0x0A: return '9';
+        case 0x0B: return '0';
         
-        default: return '\0'; // Ritorna null se il codice di scansione non è mappato
+        default: return '\0';
     }
 }
 
-// Funzione input per ottenere un carattere dalla tastiera
 char input() {
     char c;
     do {
-        c = read_keyboard(); // Leggi un carattere dalla tastiera
-    } while (c == '\0'); // Ignora i codici di rilascio
+        c = read_keyboard();
+    } while (c == '\0'); 
 
-    return c; // Ritorna il carattere letto
+    return c; 
 }

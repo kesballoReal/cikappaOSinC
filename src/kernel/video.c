@@ -32,6 +32,21 @@ void put_char(char c) {
     update_cursor(); // Aggiorna il cursore
 }
 
+
+void clear() {
+    char *vidptr = (char *)VIDEO_MEMORY;
+    
+    for (int i = 0; i < MAX_WIDTH * MAX_HEIGHT; i++) {
+        vidptr[i * 2] = ' ';      // Imposta il carattere a uno spazio
+        vidptr[i * 2 + 1] = 0x07; // Imposta il colore del carattere (grigio chiaro su sfondo nero)
+    }
+
+    cursor_x = 0; // Ripristina la posizione del cursore
+    cursor_y = 0; // Ripristina la posizione del cursore
+    update_cursor(); // Aggiorna la posizione del cursore
+}
+
+
 void video_init() {
     // Inizializza la memoria video a uno stato pulito
     unsigned int *videomem = (unsigned int *)VIDEO_MEMORY;

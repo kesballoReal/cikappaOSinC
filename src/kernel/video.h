@@ -11,5 +11,6 @@ extern unsigned int cursor_y; // Dichiarazione della variabile cursore y
 void video_init(); // Dichiarazione della funzione video_init
 void print_string(const char* str); // Dichiarazione della funzione print_string
 void put_char(char c); // Dichiarazione della funzione put_char
+void clear();
 
 #endif // VIDEO_H

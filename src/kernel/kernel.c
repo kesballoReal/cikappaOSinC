@@ -1,10 +1,9 @@
-// kernel.c
-// Author: kesballoReal
-
 #include <stdint.h>
 #include "memory.h"
 #include "video.h"
 #include "keyboard.h"
+#include "input.c"
+#include "string.h"
 
 #define MULTIBOOT_HEADER_MAGIC 0x1BADB002
 #define MULTIBOOT_HEADER_FLAGS 0x00000003
@@ -21,7 +20,6 @@ typedef struct {
     uint32_t entry_addr;
 } multiboot_header_t;
 
-// Header Multiboot
 __attribute__((section(".multiboot")))
 multiboot_header_t multiboot_header = {
     MULTIBOOT_HEADER_MAGIC,
@@ -34,23 +32,32 @@ multiboot_header_t multiboot_header = {
     0,
 };
 
+void cli() {
+    while (1) {
+        print_string("\ncikappa@iso > ");
+        char* input = inputline();
+
+        trim_whitespace(input);
+
+        if (strCmp(input, "clear") == 0) {
+            clear();
+            continue;
+        } 
+        else if (strCmp(input, "exit") == 0) {
+            break;
+        }
+        else {
+            print_string("\nError: command not found.");
+            continue;
+        }
+    }
+}
+
 void kernel_main() {
-    memory_init();  // Inizializzazione della memoria
-    video_init();   // Inizializzazione della grafica
+    memory_init();  
+    video_init();   
     
     print_string("Hello from cikappaOS Kernel!\n");
     
-    char last_char = '\0'; // Variabile per tenere traccia dell'ultimo carattere stampato
-    
-    // Ciclo infinito per non fermare il kernel.
-    while (1) {
-        char c = input(); // Leggi un carattere dalla tastiera
-        if (c != '\0' && c != last_char) {  // Stampa solo se il carattere è valido e diverso dall'ultimo
-            put_char(c); // Mostra il carattere sullo schermo
-            last_char = c; // Aggiorna l'ultimo carattere stampato
-        }
-
-        // Aggiungi un breve ritardo per evitare cicli troppo veloci
-        for (volatile int i = 0; i < 100000; i++);
-    }
+    cli();
 }
