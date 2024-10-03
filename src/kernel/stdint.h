@@ -1,7 +1,7 @@
 #ifndef STDINT_H
 #define STDINT_H
 
-// Solo definisci questi tipi se non sono già stati definiti
+
 #ifndef __UINT64_TYPE__
 typedef unsigned long uint64_t; // 64 bit unsigned
 #endif

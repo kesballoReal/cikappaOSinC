@@ -1,16 +1,16 @@
 #ifndef VIDEO_H
 #define VIDEO_H
 
-#define VIDEO_MEMORY (0xB8000) // Indirizzo della memoria video
-#define MAX_WIDTH 80 // Larghezza dello schermo
-#define MAX_HEIGHT 25 // Altezza dello schermo
+#define VIDEO_MEMORY (0xB8000) 
+#define MAX_WIDTH 80 
+#define MAX_HEIGHT 25 
 
-extern unsigned int cursor_x; // Dichiarazione della variabile cursore x
-extern unsigned int cursor_y; // Dichiarazione della variabile cursore y
+extern unsigned int cursor_x; 
+extern unsigned int cursor_y;
 
-void video_init(); // Dichiarazione della funzione video_init
-void print_string(const char* str); // Dichiarazione della funzione print_string
-void put_char(char c); // Dichiarazione della funzione put_char
+void video_init(); 
+void print_string(const char* str);
+void put_char(char c); 
 void clear();
 
-#endif // VIDEO_H
+#endif 

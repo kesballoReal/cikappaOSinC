@@ -18,7 +18,7 @@ void trim_whitespace(char* str) {
 
     if (*start == '\0') {
         str[0] = '\0';
-        return; // La stringa è vuota o composta solo da spazi
+        return; 
     }
 
     end = start;

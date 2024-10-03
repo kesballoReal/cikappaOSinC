@@ -16,9 +16,9 @@ void update_cursor() {
 }
 
 void put_char(char c) {
-    char *vidptr = (char *)VIDEO_MEMORY + (cursor_y * MAX_WIDTH + cursor_x) * 2; // Casting dell'indirizzo
+    char *vidptr = (char *)VIDEO_MEMORY + (cursor_y * MAX_WIDTH + cursor_x) * 2; 
     *vidptr = c;
-    *(vidptr + 1) = 0x07; // Colore bianco su sfondo nero
+    *(vidptr + 1) = 0x07;
     cursor_x++;
     
     if (cursor_x >= MAX_WIDTH) {
@@ -26,10 +26,10 @@ void put_char(char c) {
         cursor_y++;
     }
     if (cursor_y >= MAX_HEIGHT) {
-        cursor_y = MAX_HEIGHT - 1; // Limit to the bottom of the screen
+        cursor_y = MAX_HEIGHT - 1; 
     }
 
-    update_cursor(); // Aggiorna il cursore
+    update_cursor(); 
 }
 
 
@@ -37,25 +37,24 @@ void clear() {
     char *vidptr = (char *)VIDEO_MEMORY;
     
     for (int i = 0; i < MAX_WIDTH * MAX_HEIGHT; i++) {
-        vidptr[i * 2] = ' ';      // Imposta il carattere a uno spazio
-        vidptr[i * 2 + 1] = 0x07; // Imposta il colore del carattere (grigio chiaro su sfondo nero)
+        vidptr[i * 2] = ' ';      
+        vidptr[i * 2 + 1] = 0x07;
     }
 
-    cursor_x = 0; // Ripristina la posizione del cursore
-    cursor_y = 0; // Ripristina la posizione del cursore
-    update_cursor(); // Aggiorna la posizione del cursore
+    cursor_x = 0; 
+    cursor_y = 0;
+    update_cursor(); 
 }
 
 
 void video_init() {
-    // Inizializza la memoria video a uno stato pulito
     unsigned int *videomem = (unsigned int *)VIDEO_MEMORY;
     for (int i = 0; i < MAX_WIDTH * MAX_HEIGHT; i++) {
-        videomem[i] = 0x0F00; // Imposta il colore e pulisce la memoria
+        videomem[i] = 0x0F00; 
     }
     cursor_x = 0;
     cursor_y = 0;
-    update_cursor(); // Aggiorna il cursore inizialmente
+    update_cursor();
 }
 
 void print_string(const char* str) {
@@ -64,7 +63,7 @@ void print_string(const char* str) {
             cursor_x = 0;
             cursor_y++;
             if (cursor_y >= MAX_HEIGHT) {
-                cursor_y = MAX_HEIGHT - 1; // Limita al fondo dello schermo
+                cursor_y = MAX_HEIGHT - 1;
             }
         } else {
             put_char(*str);
