@@ -1,3 +1,7 @@
+
+// video.c
+// Author: kesballoReal
+
 #include "video.h"
 
 unsigned int cursor_x = 0;
@@ -16,21 +20,33 @@ void update_cursor() {
 }
 
 void put_char(char c) {
-    char *vidptr = (char *)VIDEO_MEMORY + (cursor_y * MAX_WIDTH + cursor_x) * 2; 
-    *vidptr = c;
-    *(vidptr + 1) = 0x07;
-    cursor_x++;
-    
-    if (cursor_x >= MAX_WIDTH) {
-        cursor_x = 0;
-        cursor_y++;
+    if (c == '\b') {
+        if (cursor_x > 0) {
+            cursor_x--;
+        } else if (cursor_y > 0) {
+            cursor_y--;
+            cursor_x = MAX_WIDTH - 1;
+        }
+        char *vidptr = (char *)VIDEO_MEMORY + (cursor_y * MAX_WIDTH + cursor_x) * 2; 
+        *vidptr = ' ';
+        *(vidptr + 1) = 0x07;
+    } else {
+        char *vidptr = (char *)VIDEO_MEMORY + (cursor_y * MAX_WIDTH + cursor_x) * 2; 
+        *vidptr = c;
+        *(vidptr + 1) = 0x07;
+        cursor_x++;
+        if (cursor_x >= MAX_WIDTH) {
+            cursor_x = 0;
+            cursor_y++;
+        }
+        if (cursor_y >= MAX_HEIGHT) {
+            cursor_y = MAX_HEIGHT - 1; 
+        }
     }
-    if (cursor_y >= MAX_HEIGHT) {
-        cursor_y = MAX_HEIGHT - 1; 
-    }
-
     update_cursor(); 
 }
+
+
 
 
 void clear() {

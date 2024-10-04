@@ -1,9 +1,14 @@
-#include <stdint.h>
+
+// kernel.c
+
+#include "stdint.h"
 #include "memory.h"
 #include "video.h"
 #include "keyboard.h"
 #include "input.c"
 #include "string.h"
+#include "utils.c"
+
 
 #define MULTIBOOT_HEADER_MAGIC 0x1BADB002
 #define MULTIBOOT_HEADER_FLAGS 0x00000003
@@ -34,21 +39,44 @@ multiboot_header_t multiboot_header = {
 
 void cli() {
     while (1) {
-        print_string("\ncikappa@iso > ");
+        print_cli();
+
+        for (volatile int i = 0; i < 35000000; i++);
+
         char* input = inputline();
 
-        trim_whitespace(input);
-
-        if (strCmp(input, "clear") == 0) {
+        if (input == NULL || strCmp(input, "") == 0) {
+            continue;
+        }
+        else if (strCmp(input, "clear") == 0) {
             clear();
             continue;
         } 
         else if (strCmp(input, "exit") == 0) {
             break;
         }
-        else {
-            print_string("\nError: command not found.");
+        else if (strCmp(input, "ver") == 0) {
+            print_version();
             continue;
+        }
+        else if (strCmp(input, "username") == 0) {
+            change_username();
+        }
+        else if (strCmp(input, "whoami") == 0) {
+            whoami();
+        }
+        else if (strCmp(input, "echo") == 0) {
+            echo();
+        }
+        else if (strCmp(input, "uname") == 0) {
+            uname();
+        }
+        
+        else {
+            print_cli_error(input);
+
+            continue;
+
         }
     }
 }
@@ -57,7 +85,11 @@ void kernel_main() {
     memory_init();  
     video_init();   
     
-    print_string("Hello from cikappaOS Kernel!\n");
+    print_string("Starting cikappaOS...");
+
+    for (volatile int i = 0; i < 350000000; i++);
+
+    print_string("  DONE!\n");
     
     cli();
 }

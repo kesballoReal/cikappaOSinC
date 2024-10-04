@@ -1,9 +1,17 @@
+
+// input.c
+// Author: kesballoReal
+
 #include "keyboard.h"
 #include <stddef.h>
 
 #define INPUT_BUFFER_SIZE 100
 
 static char full[INPUT_BUFFER_SIZE];
+
+void clear_last_char() {
+    put_char('\b');
+}
 
 char* inputline() {
     int index = 0; 
@@ -13,17 +21,25 @@ char* inputline() {
     }
 
     while (index < INPUT_BUFFER_SIZE - 1) {
-        char c = input(); 
+        char c = input();
+
         if (c == '\n') {
             break;
         }
-        if (c != '\0') {
+        if (c == '\b') {  
+            if (index > 0) { 
+                index--;
+                clear_last_char();
+                full[index] = '\0'; 
+            }
+        }
+        else if (c != '\0') {
             put_char(c); 
             full[index] = c;
             index++;
         }
 
-        for (volatile int i = 0; i < 35000000; i++); // Pausa
+        for (volatile int i = 0; i < 35000000; i++);
     }
 
     full[index] = '\0';

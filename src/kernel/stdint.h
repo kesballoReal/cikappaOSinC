@@ -1,3 +1,7 @@
+
+// stdint.h
+// Author: kesballoReal
+
 #ifndef STDINT_H
 #define STDINT_H
 

@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "*.asm": "code-text-binary",
+        "string.h": "c",
+        "keyboard.h": "c",
+        "stdint.h": "c",
+        "utils.h": "c"
+    }
+}

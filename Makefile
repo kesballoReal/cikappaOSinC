@@ -29,7 +29,6 @@ build/keyboard.o: src/kernel/keyboard.c
 build/memory.o: src/kernel/memory.c
 	$(GCC) -m32 -ffreestanding -c $< -o $@
 
-# Linking del kernel
 $(KERNEL_BIN): $(KERNEL_OBJ)
 	$(LD) -m elf_i386 -T linker.ld -o $@ $(KERNEL_OBJ)
 

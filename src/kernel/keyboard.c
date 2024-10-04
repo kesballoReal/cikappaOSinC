@@ -1,3 +1,4 @@
+
 // keyboard.c
 // Author: kesballoReal
 
@@ -59,6 +60,12 @@ char read_keyboard() {
         case 0x09: return '8';
         case 0x0A: return '9';
         case 0x0B: return '0';
+
+        case 0x1B:   return '+';
+        case 0x4A:   return '-';
+        case 0x35: return '/';
+
+        case 0x0E: return '\b';
         
         default: return '\0';
     }

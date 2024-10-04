@@ -1,3 +1,9 @@
+
+// string.h
+// Author: kesballoReal
+
+#include <stddef.h>
+
 int strCmp(const char* s1, const char* s2)
 {
     while(*s1 && (*s1 == *s2))
@@ -8,34 +14,15 @@ int strCmp(const char* s1, const char* s2)
     return *(const unsigned char*)s1 - *(const unsigned char*)s2;
 }
 
-void trim_whitespace(char* str) {
-    char* start = str;
-    char* end;
 
-    while (*start == ' ' || *start == '\t') {
-        start++;
+char* strncpy(char* dest, const char* src, size_t n) {
+    size_t i;
+    for (i = 0; i < n && src[i] != '\0'; i++) {
+        dest[i] = src[i];
     }
-
-    if (*start == '\0') {
-        str[0] = '\0';
-        return; 
+    for (; i < n; i++) {
+        dest[i] = '\0'; 
     }
-
-    end = start;
-    while (*end != '\0') {
-        end++;
-    }
-    end--;
-
-    while (end > start && (*end == ' ' || *end == '\t')) {
-        end--;
-    }
-
-    size_t len = end - start + 1;
-
-    for (size_t i = 0; i < len; i++) {
-        str[i] = start[i];
-    }
-
-    str[len] = '\0';
+    return dest;
 }
+

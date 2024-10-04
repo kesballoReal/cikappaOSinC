@@ -1,3 +1,7 @@
+
+// video.h
+// Author: kesballoReal
+
 #ifndef VIDEO_H
 #define VIDEO_H
 
@@ -12,5 +16,6 @@ void video_init();
 void print_string(const char* str);
 void put_char(char c); 
 void clear();
+
 
 #endif 
