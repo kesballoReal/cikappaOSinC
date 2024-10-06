@@ -10,7 +10,7 @@
 #include "cmd.c"
 #include "bool.h"
 
-#define ONE_MB (1 * 1024 * 1024)  // One megabyte in bytes (1.048.576)
+#define ONE_MB (1 * 1024 * 1024)
 
 #define MULTIBOOT_HEADER_MAGIC 0x1BADB002
 #define MULTIBOOT_HEADER_FLAGS 0x00000003

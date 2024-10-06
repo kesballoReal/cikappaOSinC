@@ -8,8 +8,10 @@
 #include "stdint.h"
 #include <stddef.h>
 
-#define MEMORY_POOL_SIZE 4194304 // Limit of memory (4 megabytes)
+#define ONE_MB (1 * 1024 * 1024)  // One megabyte in bytes (1.048.576)
+#define MEMORY_POOL_SIZE (ONE_MB * 64) // Limit of memory (64 MB)
 #define MIN_BLOCK_SIZE 16
+
 
 typedef struct block {
     struct block *next;
