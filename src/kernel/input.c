@@ -9,6 +9,8 @@
 
 static char full[INPUT_BUFFER_SIZE];
 
+int speed = 35000000;
+
 void clear_last_char() {
     put_char('\b');
 }
@@ -39,7 +41,7 @@ char* inputline() {
             index++;
         }
 
-        for (volatile int i = 0; i < 35000000; i++);
+        for (volatile int i = 0; i < speed; i++);
     }
 
     full[index] = '\0';

@@ -5,7 +5,7 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
-#include <stdint.h>
+#include "stdint.h"
 #include <stddef.h>
 
 #define MEMORY_POOL_SIZE 4194304 // Limit of memory (4 megabytes)

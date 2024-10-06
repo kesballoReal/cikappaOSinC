@@ -8,4 +8,6 @@
 char* inputline();
 void clear_last_char();
 
+extern int speed;
+
 #endif

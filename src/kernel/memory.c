@@ -3,6 +3,8 @@
 // Author: kesballoReal
 
 #include "memory.h"
+#include "video.h"
+#include "stdint.h"
 
 static uint8_t memory_pool[MEMORY_POOL_SIZE];
 static block_t* free_list = NULL; 
@@ -15,7 +17,6 @@ void memory_init(void) {
 }
 
 void* memory_alloc(uint32_t size) {
-
     size = (size + 7) & ~7; 
     if (size < MIN_BLOCK_SIZE) {
         size = MIN_BLOCK_SIZE; 
@@ -23,7 +24,6 @@ void* memory_alloc(uint32_t size) {
 
     block_t* current = free_list;
     block_t* previous = NULL;
-
 
     while (current) {
         if (current->size >= size) {
@@ -40,14 +40,14 @@ void* memory_alloc(uint32_t size) {
             } else {
                 free_list = current->next;
             }
-
             return (uint8_t*)current + sizeof(block_t);
         }
         previous = current;
         current = current->next;
     }
 
-    return NULL; // Not enough memory
+    print_string("\nMemory allocation failed: Not enough memory!\n");
+    return NULL;
 }
 
 // Do i REALLY need to explain this? Oh cmon..

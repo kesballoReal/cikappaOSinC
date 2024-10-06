@@ -1,4 +1,3 @@
-
 // kernel.c
 
 #include "stdint.h"
@@ -8,7 +7,10 @@
 #include "input.c"
 #include "string.h"
 #include "utils.c"
+#include "cmd.c"
+#include "bool.h"
 
+#define ONE_MB (1 * 1024 * 1024)  // One megabyte in bytes (1.048.576)
 
 #define MULTIBOOT_HEADER_MAGIC 0x1BADB002
 #define MULTIBOOT_HEADER_FLAGS 0x00000003
@@ -37,59 +39,16 @@ multiboot_header_t multiboot_header = {
     0,
 };
 
-void cli() {
-    while (1) {
-        print_cli();
-
-        for (volatile int i = 0; i < 35000000; i++);
-
-        char* input = inputline();
-
-        if (input == NULL || strCmp(input, "") == 0) {
-            continue;
-        }
-        else if (strCmp(input, "clear") == 0) {
-            clear();
-            continue;
-        } 
-        else if (strCmp(input, "exit") == 0) {
-            break;
-        }
-        else if (strCmp(input, "ver") == 0) {
-            print_version();
-            continue;
-        }
-        else if (strCmp(input, "username") == 0) {
-            change_username();
-        }
-        else if (strCmp(input, "whoami") == 0) {
-            whoami();
-        }
-        else if (strCmp(input, "echo") == 0) {
-            echo();
-        }
-        else if (strCmp(input, "uname") == 0) {
-            uname();
-        }
-        
-        else {
-            print_cli_error(input);
-
-            continue;
-
-        }
-    }
-}
-
 void kernel_main() {
     memory_init();  
     video_init();   
     
-    print_string("Starting cikappaOS...");
+    print_string("Starting cikappaOS..");
 
     for (volatile int i = 0; i < 350000000; i++);
 
     print_string("  DONE!\n");
-    
+
+    void* cli_memory = memory_alloc(ONE_MB);
     cli();
 }
