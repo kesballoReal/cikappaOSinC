@@ -7,7 +7,7 @@
 #include "input.h"
 
 
-char __version__[] = "0.3";
+char __version__[] = "0.4";
 
 char username[] = "cikappa";
 
